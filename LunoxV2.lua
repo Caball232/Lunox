@@ -176,13 +176,14 @@ local function AddTab(window, name, isFirst)
 
     local TabLabel = Instance.new("TextLabel")
     TabLabel.Name = "Label"
+    TabLabel.Text = name
     TabLabel.Parent = TabFrame
     TabLabel.AnchorPoint = Vector2.new(0.5,0.5)
     TabLabel.BackgroundTransparency = 1
     TabLabel.Position = UDim2.new(0.5,0,0.5,0)
     TabLabel.Size = UDim2.new(1,0,1,0)
     TabLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TabLabel.TextXAllignment = Enum.TextXAllignment.Left
+    TabLabel.TextXAlignment = Enum.TextXAlignment.Left
     local UITextSizeConstraint1 = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint1.MaxTextSize = 11
     UITextSizeConstraint1.Parent = TabLabel
