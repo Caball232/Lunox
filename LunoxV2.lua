@@ -371,3 +371,9 @@ local function AddToggle(parent, callback)
 
     return ToggleTemp
 end
+
+LunoxLib.MakeWindow = MakeWindow
+LunoxLib.AddTab = AddTab
+LunoxLib.AddToggle = AddToggle
+
+return LunoxLib
