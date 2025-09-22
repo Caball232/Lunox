@@ -102,7 +102,7 @@ local function MakeWindow(config)
     Inner.Name = "Inner"
     Inner.Parent = Window
     Inner.Size = UDim2.new(1,0,0.892,0)
-    Inner.Position = UDim2.new(0.5,0,0.5,0)
+    Inner.Position = UDim2.new(0.5,0,0.554,0)
     Inner.BackgroundColor3 = Color3.fromRGB(49,49,49)
     Inner.AnchorPoint = Vector2.new(0.5, 0.5)
     local UIAspectRatioConstraint2 = Instance.new("UIAspectRatioConstraint")
@@ -181,6 +181,8 @@ local function AddTab(window, name, isFirst)
     TabLabel.BackgroundTransparency = 1
     TabLabel.Position = UDim2.new(0.5,0,0.5,0)
     TabLabel.Size = UDim2.new(1,0,1,0)
+    TabLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TabLabel.TextXAllignment = Enum.TextXAllignment.Left
     local UITextSizeConstraint1 = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint1.MaxTextSize = 11
     UITextSizeConstraint1.Parent = TabLabel
