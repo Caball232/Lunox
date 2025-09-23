@@ -172,10 +172,6 @@ local function AddTab(window, name, isFirst)
     TabButton.Parent = TabFrame
     TabButton.Text = ""
 
-    local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint.MaxTextSize = 14
-    UITextSizeConstraint.Parent = TabButton
-
     local TabLabel = Instance.new("TextLabel")
     TabLabel.Name = "Label"
     TabLabel.Text = name
@@ -188,10 +184,6 @@ local function AddTab(window, name, isFirst)
     TabLabel.TextTransparency = 0.4
     TabLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    local UITextSizeConstraint1 = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint1.MaxTextSize = 11
-    UITextSizeConstraint1.Parent = TabLabel
-
     local Container = Instance.new("ScrollingFrame")
     Container.Name = "Container"
     Container.Size = UDim2.new(1,0,1,0)
@@ -199,8 +191,8 @@ local function AddTab(window, name, isFirst)
     Container.BackgroundTransparency = 1
     Container.Visible = false
     Container.Parent = window.ContentFrame
-    Container.CanvasSize = UDim2.new(0,0,0,0)
     Container.ScrollBarThickness = 4
+    Container.CanvasSize = UDim2.new(0,0,0,0)
 
     local function showTab()
         for _, child in ipairs(window.ContentFrame:GetChildren()) do
@@ -213,28 +205,79 @@ local function AddTab(window, name, isFirst)
         for _, frame in ipairs(window.TabsFrame:GetChildren()) do
             if frame:IsA("Frame") then
                 local lbl = frame:FindFirstChild("Label")
-                if lbl and lbl:IsA("TextLabel") then
+                if lbl then
                     lbl.TextTransparency = 0.4
                 end
             end
         end
-
         TabLabel.TextTransparency = 0
     end
 
     TabButton.MouseButton1Click:Connect(showTab)
+    if isFirst then showTab() end
 
-    if isFirst then
-        showTab()
+    local itemsPerRow = 3
+    local currentIndex = 0
+    local startXScale = 0.026
+    local startYScale = 0.144
+    local xSpacing = 0.329
+    local ySpacing = 0.298
+
+    local function AddElement(element)
+        local row = math.floor(currentIndex / itemsPerRow)
+        local col = currentIndex % itemsPerRow
+
+        element.Position = UDim2.new(startXScale + (col * xSpacing), 0, startYScale + (row * ySpacing), 0)
+        element.Parent = Container
+
+        currentIndex += 1
+        local totalRows = math.ceil(currentIndex / itemsPerRow)
+        Container.CanvasSize = UDim2.new(0,0,0, totalRows * ySpacing * Container.AbsoluteSize.Y)
     end
 
-    local function AddRow(yPos)
-        local Row = Instance.new("Frame")
-        Row.Size = UDim2.new(1,0,0,30)
-        Row.Position = UDim2.new(0,0,0,yPos)
-        Row.BackgroundTransparency = 1
-        Row.Parent = Container
-        return Row
+    local function AddToggle(text, callback)
+        local ToggleFrame = Instance.new("Frame")
+        ToggleFrame.Size = UDim2.new(0.333,0,0.229,0)
+        ToggleFrame.BackgroundColor3 = Color3.fromRGB(49,49,49)
+        local UICorner = Instance.new("UICorner")
+        UICorner.CornerRadius = UDim.new(0,12)
+        UICorner.Parent = ToggleFrame
+
+        local Knob = Instance.new("Frame")
+        Knob.Size = UDim2.new(0.458,0,0.87,0)
+        Knob.Position = UDim2.new(0.27,0,0.5,0)
+        Knob.AnchorPoint = Vector2.new(0.5,0.5)
+        Knob.BackgroundColor3 = Color3.fromRGB(220,220,220)
+        Knob.Parent = ToggleFrame
+        local UICorner2 = Instance.new("UICorner")
+        UICorner2.CornerRadius = UDim.new(1,0)
+        UICorner2.Parent = Knob
+
+        local Button = Instance.new("TextButton")
+        Button.Size = UDim2.new(1,0,1,0)
+        Button.BackgroundTransparency = 1
+        Button.Text = ""
+        Button.Parent = ToggleFrame
+
+        local Label = Instance.new("TextLabel")
+        Label.Text = text
+        Label.TextColor3 = Color3.fromRGB(255,255,255)
+        Label.BackgroundTransparency = 1
+        Label.Position = UDim2.new(0,0,0,0)
+        Label.Size = UDim2.new(1,0,0.5,0)
+        Label.TextScaled = true
+        Label.Font = Enum.Font.GothamBold
+        Label.Parent = ToggleFrame
+
+        local toggled = false
+        Button.MouseButton1Click:Connect(function()
+            toggled = not toggled
+            Knob.Position = toggled and UDim2.new(0.73,0,0.5,0) or UDim2.new(0.27,0,0.5,0)
+            if callback then callback(toggled) end
+        end)
+
+        AddElement(ToggleFrame)
+        return ToggleFrame
     end
 
     return {
@@ -242,7 +285,8 @@ local function AddTab(window, name, isFirst)
         Title = TabLabel,
         Container = Container,
         Show = showTab,
-        AddRow = AddRow
+        AddElement = AddElement,
+        AddToggle = AddToggle
     }
 end
 
