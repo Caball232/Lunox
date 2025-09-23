@@ -203,6 +203,7 @@ local function AddTab(window, name, isFirst)
     Label.TextColor3 = Color3.fromRGB(255, 255, 255)
     Label.TextXAlignment = Enum.TextXAlignment.Left
     Label.Font = Enum.Font.GothamBold
+    Label.TextScaled = true
     local UITextSizeConstraint3 = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint3.MaxTextSize = 20
     UITextSizeConstraint3.Parent = Label
