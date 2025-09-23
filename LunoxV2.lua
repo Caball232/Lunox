@@ -194,6 +194,19 @@ local function AddTab(window, name, isFirst)
     Container.ScrollBarThickness = 4
     Container.CanvasSize = UDim2.new(0,0,0,0)
 
+    local Label = Instance.new("TextLabel")
+    Label.Text = name
+    Label.BackgroundTransparency = 1
+    Label.Position = UDim2.new(0.053,0,0.039,0)
+    Label.Size = UDim2.new(0.337,0,0.068,0)
+    Label.Parent = Container
+    Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Font = Enum.Font.GothamBold
+    local UITextSizeConstraint3 = Instance.new("UITextSizeConstraint")
+    UITextSizeConstraint3.MaxTextSize = 20
+    UITextSizeConstraint3.Parent = Label
+
     local function showTab()
         for _, child in ipairs(window.ContentFrame:GetChildren()) do
             if child:IsA("ScrollingFrame") then
