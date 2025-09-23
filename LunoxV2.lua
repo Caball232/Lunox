@@ -160,6 +160,7 @@ local function AddTab(window, name, isFirst)
     TabFrame.BackgroundTransparency = 1
     TabFrame.Size = UDim2.new(0.913,0,0,25)
     TabFrame.Parent = window.TabsFrame
+
     local UICorner3 = Instance.new("UICorner")
     UICorner3.CornerRadius = UDim.new(0,4)
     UICorner3.Parent = TabFrame
@@ -170,6 +171,7 @@ local function AddTab(window, name, isFirst)
     TabButton.Size = UDim2.new(1,0,1,0)
     TabButton.Parent = TabFrame
     TabButton.Text = ""
+
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint.MaxTextSize = 14
     UITextSizeConstraint.Parent = TabButton
@@ -183,7 +185,9 @@ local function AddTab(window, name, isFirst)
     TabLabel.Position = UDim2.new(0.5,0,0.5,0)
     TabLabel.Size = UDim2.new(1,0,1,0)
     TabLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TabLabel.TextTransparency = 0.4
     TabLabel.TextXAlignment = Enum.TextXAlignment.Left
+
     local UITextSizeConstraint1 = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint1.MaxTextSize = 11
     UITextSizeConstraint1.Parent = TabLabel
@@ -206,14 +210,15 @@ local function AddTab(window, name, isFirst)
         end
         Container.Visible = true
 
-        for _, btn in ipairs(window.TabsFrame:GetChildren()) do
-            if btn:IsA("TextButton") then
-                local lbl = btn:FindFirstChildOfClass("TextLabel")
-                if lbl then
+        for _, frame in ipairs(window.TabsFrame:GetChildren()) do
+            if frame:IsA("Frame") then
+                local lbl = frame:FindFirstChild("Label")
+                if lbl and lbl:IsA("TextLabel") then
                     lbl.TextTransparency = 0.4
                 end
             end
         end
+
         TabLabel.TextTransparency = 0
     end
 
