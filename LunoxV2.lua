@@ -413,6 +413,7 @@ local function AddButton(parent, text, callback)
     ButtonFrame.Parent = Inner
     ButtonFrame.Size = UDim2.new(0.86,0,0.457,0)
     ButtonFrame.Position = UDim2.new(0.498,0,0.461,0)
+    ButtonFrame.AnchorPoint = Vector2.new(0.5,0.5)
     ButtonFrame.BackgroundColor3 = Color3.fromRGB(124,124,124)
 
     local UICorner8 = Instance.new("UICorner")
