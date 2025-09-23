@@ -216,6 +216,7 @@ local function AddTab(window, name, isFirst)
     TabButton.MouseButton1Click:Connect(showTab)
     if isFirst then showTab() end
 
+    -- GRID SYSTEM FOR ANY ELEMENTS YOU ADD
     local itemsPerRow = 3
     local currentIndex = 0
     local startXScale = 0.026
@@ -235,58 +236,12 @@ local function AddTab(window, name, isFirst)
         Container.CanvasSize = UDim2.new(0,0,0, totalRows * ySpacing * Container.AbsoluteSize.Y)
     end
 
-    local function AddToggle(text, callback)
-        local ToggleFrame = Instance.new("Frame")
-        ToggleFrame.Size = UDim2.new(0.333,0,0.229,0)
-        ToggleFrame.BackgroundColor3 = Color3.fromRGB(49,49,49)
-        local UICorner = Instance.new("UICorner")
-        UICorner.CornerRadius = UDim.new(0,12)
-        UICorner.Parent = ToggleFrame
-
-        local Knob = Instance.new("Frame")
-        Knob.Size = UDim2.new(0.458,0,0.87,0)
-        Knob.Position = UDim2.new(0.27,0,0.5,0)
-        Knob.AnchorPoint = Vector2.new(0.5,0.5)
-        Knob.BackgroundColor3 = Color3.fromRGB(220,220,220)
-        Knob.Parent = ToggleFrame
-        local UICorner2 = Instance.new("UICorner")
-        UICorner2.CornerRadius = UDim.new(1,0)
-        UICorner2.Parent = Knob
-
-        local Button = Instance.new("TextButton")
-        Button.Size = UDim2.new(1,0,1,0)
-        Button.BackgroundTransparency = 1
-        Button.Text = ""
-        Button.Parent = ToggleFrame
-
-        local Label = Instance.new("TextLabel")
-        Label.Text = text
-        Label.TextColor3 = Color3.fromRGB(255,255,255)
-        Label.BackgroundTransparency = 1
-        Label.Position = UDim2.new(0,0,0,0)
-        Label.Size = UDim2.new(1,0,0.5,0)
-        Label.TextScaled = true
-        Label.Font = Enum.Font.GothamBold
-        Label.Parent = ToggleFrame
-
-        local toggled = false
-        Button.MouseButton1Click:Connect(function()
-            toggled = not toggled
-            Knob.Position = toggled and UDim2.new(0.73,0,0.5,0) or UDim2.new(0.27,0,0.5,0)
-            if callback then callback(toggled) end
-        end)
-
-        AddElement(ToggleFrame)
-        return ToggleFrame
-    end
-
     return {
         Button = TabButton,
         Title = TabLabel,
         Container = Container,
         Show = showTab,
-        AddElement = AddElement,
-        AddToggle = AddToggle
+        AddElement = AddElement
     }
 end
 
