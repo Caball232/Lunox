@@ -159,7 +159,7 @@ local function AddTab(window, name, isFirst)
     TabFrame.Name = name
     TabFrame.BackgroundTransparency = 1
     TabFrame.Size = UDim2.new(0.913,0,0,25)
-    TabFrame.Parent = window.TabsFrame
+    TabFrame.Parent = window.TabsFrame.ScrollingFrame
 
     local UICorner3 = Instance.new("UICorner")
     UICorner3.CornerRadius = UDim.new(0,4)
