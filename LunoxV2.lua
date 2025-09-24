@@ -193,6 +193,7 @@ local function AddTab(window, name, isFirst)
     Container.Parent = window.ContentFrame
     Container.ScrollBarThickness = 4
     Container.CanvasSize = UDim2.new(0,0,0,0)
+    Container.ScrollingEnabled = false
 
     local Label = Instance.new("TextLabel")
     Label.Text = name
@@ -246,7 +247,14 @@ local function AddTab(window, name, isFirst)
 
         currentIndex += 1
         local totalRows = math.ceil(currentIndex / itemsPerRow)
-        Container.CanvasSize = UDim2.new(0,0,0, totalRows * ySpacing * Container.AbsoluteSize.Y)
+
+        if currentIndex >= 6 then
+            Container.ScrollingEnabled = true
+            Container.CanvasSize = UDim2.new(0,0,0, totalRows * ySpacing * Container.AbsoluteSize.Y)
+        else
+            Container.ScrollingEnabled = false
+            Container.CanvasSize = UDim2.new(0,0,0,0)
+        end
     end
 
     return {
