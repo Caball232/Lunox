@@ -239,23 +239,31 @@ local function AddTab(window, name, isFirst)
     local ySpacing = 0.298
 
     local function AddElement(element)
-        local row = math.floor(currentIndex / itemsPerRow)
-        local col = currentIndex % itemsPerRow
+    local row = math.floor(currentIndex / itemsPerRow)
+    local col = currentIndex % itemsPerRow
 
-        element.Position = UDim2.new(startXScale + (col * xSpacing), 0, startYScale + (row * ySpacing), 0)
-        element.Parent = Container
+    element.Position = UDim2.new(
+        startXScale + (col * xSpacing),
+        0,
+        startYScale + (row * ySpacing),
+        0
+    )
+    element.Parent = Container
 
-        currentIndex += 1
-        local totalRows = math.ceil(currentIndex / itemsPerRow)
+    currentIndex += 1
+    local totalRows = math.ceil(currentIndex / itemsPerRow)
 
-        if currentIndex >= 6 then
-            Container.ScrollingEnabled = true
-            Container.CanvasSize = UDim2.new(0,0,0, totalRows * ySpacing * Container.AbsoluteSize.Y)
-        else
-            Container.ScrollingEnabled = false
-            Container.CanvasSize = UDim2.new(0,0,0,0)
-        end
+    if totalRows > 2 then
+        Container.ScrollingEnabled = true
+        Container.CanvasSize = UDim2.new(
+            0, 0,
+            0, (startYScale + (totalRows * ySpacing)) * Container.AbsoluteSize.Y
+        )
+    else
+        Container.ScrollingEnabled = false
+        Container.CanvasSize = UDim2.new(0,0,0,0)
     end
+end
 
     return {
         Button = TabButton,
