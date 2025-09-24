@@ -158,17 +158,17 @@ local function AddTab(window, name, isFirst)
     local TabFrame = Instance.new("Frame")
     TabFrame.Name = name
     TabFrame.BackgroundTransparency = 1
-    TabFrame.Size = UDim2.new(0.913, 0, 0, 25)
+    TabFrame.Size = UDim2.new(0.913,0,0,25)
     TabFrame.Parent = window.TabsFrame.ScrollingFrame
 
     local UICorner3 = Instance.new("UICorner")
-    UICorner3.CornerRadius = UDim.new(0, 4)
+    UICorner3.CornerRadius = UDim.new(0,4)
     UICorner3.Parent = TabFrame
 
     local TabButton = Instance.new("TextButton")
     TabButton.Name = "Button"
     TabButton.BackgroundTransparency = 1
-    TabButton.Size = UDim2.new(1, 0, 1, 0)
+    TabButton.Size = UDim2.new(1,0,1,0)
     TabButton.Parent = TabFrame
     TabButton.Text = ""
 
@@ -176,30 +176,30 @@ local function AddTab(window, name, isFirst)
     TabLabel.Name = "Label"
     TabLabel.Text = name
     TabLabel.Parent = TabFrame
-    TabLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+    TabLabel.AnchorPoint = Vector2.new(0.5,0.5)
     TabLabel.BackgroundTransparency = 1
-    TabLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
-    TabLabel.Size = UDim2.new(1, 0, 1, 0)
+    TabLabel.Position = UDim2.new(0.5,0,0.5,0)
+    TabLabel.Size = UDim2.new(1,0,1,0)
     TabLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     TabLabel.TextTransparency = 0.4
     TabLabel.TextXAlignment = Enum.TextXAlignment.Left
 
     local Container = Instance.new("ScrollingFrame")
     Container.Name = "Container"
-    Container.Size = UDim2.new(1, 0, 1, 0)
-    Container.Position = UDim2.new(0, 0, 0, 0)
+    Container.Size = UDim2.new(1,0,1,0)
+    Container.Position = UDim2.new(0,0,0,0)
     Container.BackgroundTransparency = 1
     Container.Visible = false
     Container.Parent = window.ContentFrame
     Container.ScrollBarThickness = 4
-    Container.CanvasSize = UDim2.new(0, 0, 0, 0)
+    Container.CanvasSize = UDim2.new(0,0,0,0)
     Container.ScrollingEnabled = false
 
     local Label = Instance.new("TextLabel")
     Label.Text = name
     Label.BackgroundTransparency = 1
-    Label.Position = UDim2.new(0.053, 0, 0.039, 0)
-    Label.Size = UDim2.new(0.337, 0, 0.068, 0)
+    Label.Position = UDim2.new(0.053,0,0.039,0)
+    Label.Size = UDim2.new(0.337,0,0.068,0)
     Label.Parent = Container
     Label.TextColor3 = Color3.fromRGB(255, 255, 255)
     Label.TextXAlignment = Enum.TextXAlignment.Left
@@ -236,30 +236,34 @@ local function AddTab(window, name, isFirst)
     local startXScale = 0.026
     local startYScale = 0.144
     local xSpacing = 0.329
-    local ySpacing = 0.02
-    local elementWidthScale = 0.333
-    local elementHeightScale = 0.229
+    local ySpacing = 0.298
 
     local function AddElement(element)
-        local row = math.floor(currentIndex / itemsPerRow)
-        local col = currentIndex % itemsPerRow
+    local row = math.floor(currentIndex / itemsPerRow)
+    local col = currentIndex % itemsPerRow
 
-        element.Size = UDim2.new(elementWidthScale, 0, elementHeightScale, 0)
-        element.Position = UDim2.new(
-            startXScale + (col * xSpacing),
-            0,
-            startYScale + row * (elementHeightScale + ySpacing),
-            0
+    element.Position = UDim2.new(
+        startXScale + (col * xSpacing),
+        0,
+        startYScale + (row * ySpacing),
+        0
+    )
+    element.Parent = Container
+
+    currentIndex += 1
+    local totalRows = math.ceil(currentIndex / itemsPerRow)
+
+    if totalRows > 2 then
+        Container.ScrollingEnabled = true
+        Container.CanvasSize = UDim2.new(
+            0, 0,
+            0, (startYScale + (totalRows * ySpacing)) * Container.AbsoluteSize.Y
         )
-        element.Parent = Container
-
-        currentIndex += 1
-        local totalRows = math.ceil(currentIndex / itemsPerRow)
-
-        local canvasHeight = totalRows * (elementHeightScale + ySpacing) * Container.AbsoluteSize.Y + startYScale * Container.AbsoluteSize.Y
-        Container.CanvasSize = UDim2.new(0, 0, 0, canvasHeight)
-        Container.ScrollingEnabled = canvasHeight > Container.AbsoluteSize.Y
+    else
+        Container.ScrollingEnabled = false
+        Container.CanvasSize = UDim2.new(0,0,0,0)
     end
+end
 
     return {
         Button = TabButton,
