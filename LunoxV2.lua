@@ -237,33 +237,29 @@ local function AddTab(window, name, isFirst)
     local startYScale = 0.144
     local xSpacing = 0.329
     local ySpacing = 0.298
+    local elementWidthScale = 0.333
+    local elementHeightScale = 0.229
 
     local function AddElement(element)
-    local row = math.floor(currentIndex / itemsPerRow)
-    local col = currentIndex % itemsPerRow
+        local row = math.floor(currentIndex / itemsPerRow)
+        local col = currentIndex % itemsPerRow
 
-    element.Position = UDim2.new(
-        startXScale + (col * xSpacing),
-        0,
-        startYScale + (row * ySpacing),
-        0
-    )
-    element.Parent = Container
-
-    currentIndex += 1
-    local totalRows = math.ceil(currentIndex / itemsPerRow)
-
-    if totalRows > 2 then
-        Container.ScrollingEnabled = true
-        Container.CanvasSize = UDim2.new(
-            0, 0,
-            0, (startYScale + (totalRows * ySpacing)) * Container.AbsoluteSize.Y
+        element.Size = UDim2.new(elementWidthScale, 0, elementHeightScale, 0)
+        element.Position = UDim2.new(
+            startXScale + (col * xSpacing),
+            0,
+            startYScale + (row * ySpacing),
+            0
         )
-    else
-        Container.ScrollingEnabled = false
-        Container.CanvasSize = UDim2.new(0,0,0,0)
+        element.Parent = Container
+
+        currentIndex += 1
+        local totalRows = math.ceil(currentIndex / itemsPerRow)
+
+        local canvasHeight = totalRows * (elementHeightScale * Container.AbsoluteSize.Y + ySpacing * Container.AbsoluteSize.Y) + startYScale * Container.AbsoluteSize.Y
+        Container.CanvasSize = UDim2.new(0, 0, 0, canvasHeight)
+        Container.ScrollingEnabled = canvasHeight > Container.AbsoluteSize.Y
     end
-end
 
     return {
         Button = TabButton,
