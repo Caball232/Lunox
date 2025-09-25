@@ -541,7 +541,7 @@ local function AddDropdown(parent, text, options, callback)
     DropdownTemp.Size = UDim2.new(0.333, 0, 0.229, 0)
     DropdownTemp.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
     DropdownTemp.Parent = parent
-    DropdownTemp.ZIndex = 1
+    DropdownTemp.ZIndex = 3
 
     local UIAspectRatioConstraint563 = Instance.new("UIAspectRatioConstraint")
     UIAspectRatioConstraint563.AspectRatio = 1.889
