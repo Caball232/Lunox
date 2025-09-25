@@ -538,10 +538,14 @@ end
 local function AddDropdown(parent, text, options, callback)
     local DropdownTemp = Instance.new("Frame")
     DropdownTemp.Name = "DropdownTemp"
-    DropdownTemp.Size = UDim2.new(0.28, 0, 0.18, 0) -- smaller size
+    DropdownTemp.Size = UDim2.new(0.333, 0, 0.229, 0)
     DropdownTemp.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
     DropdownTemp.Parent = parent
-    DropdownTemp.ZIndex = 999 -- make sure it appears above everything
+    DropdownTemp.ZIndex = 999
+
+    local UIAspectRatioConstraint563 = Instance.new("UIAspectRatioConstraint")
+    UIAspectRatioConstraint563.AspectRatio = 1.889
+    UIAspectRatioConstraint563.Parent = DropdownTemp
 
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 12)
