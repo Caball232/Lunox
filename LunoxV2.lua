@@ -538,19 +538,22 @@ end
 local function AddDropdown(parent, text, options, callback)
     local DropdownTemp = Instance.new("Frame")
     DropdownTemp.Name = "DropdownTemp"
-    DropdownTemp.Size = UDim2.new(0.333, 0, 0.229, 0)
+    DropdownTemp.Size = UDim2.new(0.28, 0, 0.18, 0) -- smaller size
     DropdownTemp.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
     DropdownTemp.Parent = parent
+    DropdownTemp.ZIndex = 999 -- make sure it appears above everything
 
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = DropdownTemp
+    UICorner.ZIndex = 999
 
     local UIStroke = Instance.new("UIStroke")
     UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     UIStroke.Color = Color3.fromRGB(255, 255, 255)
     UIStroke.Thickness = 2.7
     UIStroke.Parent = DropdownTemp
+    UIStroke.ZIndex = 999
 
     local Inner = Instance.new("Frame")
     Inner.Name = "Inner"
@@ -558,10 +561,12 @@ local function AddDropdown(parent, text, options, callback)
     Inner.Size = UDim2.new(1, 0, 0.644, 0)
     Inner.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
     Inner.Parent = DropdownTemp
+    Inner.ZIndex = 999
 
     local UICorner2 = Instance.new("UICorner")
     UICorner2.CornerRadius = UDim.new(0, 8)
     UICorner2.Parent = Inner
+    UICorner2.ZIndex = 999
 
     local ButtonFrame = Instance.new("Frame")
     ButtonFrame.Parent = Inner
@@ -569,10 +574,12 @@ local function AddDropdown(parent, text, options, callback)
     ButtonFrame.Position = UDim2.new(0.5, 0, 0.461, 0)
     ButtonFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     ButtonFrame.BackgroundColor3 = Color3.fromRGB(124, 124, 124)
+    ButtonFrame.ZIndex = 999
 
     local UICorner3 = Instance.new("UICorner")
     UICorner3.CornerRadius = UDim.new(0, 4)
     UICorner3.Parent = ButtonFrame
+    UICorner3.ZIndex = 999
 
     local Button = Instance.new("TextButton")
     Button.Parent = ButtonFrame
@@ -582,12 +589,14 @@ local function AddDropdown(parent, text, options, callback)
     Button.Font = Enum.Font.GothamBold
     Button.TextColor3 = Color3.fromRGB(255, 255, 255)
     Button.TextScaled = true
+    Button.ZIndex = 1000
 
     local TopBar = Instance.new("Frame")
     TopBar.Name = "TopBar"
     TopBar.Size = UDim2.new(1, 0, 0.333, 0)
     TopBar.BackgroundTransparency = 1
     TopBar.Parent = DropdownTemp
+    TopBar.ZIndex = 999
 
     local Title = Instance.new("TextLabel")
     Title.Name = "Title"
@@ -599,10 +608,12 @@ local function AddDropdown(parent, text, options, callback)
     Title.TextScaled = true
     Title.Font = Enum.Font.GothamBold
     Title.Parent = TopBar
+    Title.ZIndex = 1000
 
     local UITextSizeConstraint22 = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint22.MaxTextSize = 14
     UITextSizeConstraint22.Parent = Title
+    UITextSizeConstraint22.ZIndex = 1000
 
     local Home = Instance.new("ImageLabel")
     Home.Name = "Home"
@@ -613,52 +624,56 @@ local function AddDropdown(parent, text, options, callback)
     Home.ImageColor3 = Color3.fromRGB(255, 255, 255)
     Home.ScaleType = Enum.ScaleType.Stretch
     Home.Parent = TopBar
+    Home.ZIndex = 1000
 
     local optionHeight = 22
-local optionPadding = 2
+    local optionPadding = 2
 
-local OptionsFrame = Instance.new("ScrollingFrame")
-OptionsFrame.Size = UDim2.new(1, -10, 0, 0)
-OptionsFrame.Position = UDim2.new(0, 5, 1, 5)
-OptionsFrame.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-OptionsFrame.BorderSizePixel = 0
-OptionsFrame.Visible = false
-OptionsFrame.ScrollBarThickness = 4
-OptionsFrame.Parent = DropdownTemp
+    local OptionsFrame = Instance.new("ScrollingFrame")
+    OptionsFrame.Size = UDim2.new(1, -10, 0, 0)
+    OptionsFrame.Position = UDim2.new(0, 5, 1, 5)
+    OptionsFrame.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    OptionsFrame.BorderSizePixel = 0
+    OptionsFrame.Visible = false
+    OptionsFrame.ScrollBarThickness = 4
+    OptionsFrame.Parent = DropdownTemp
+    OptionsFrame.ZIndex = 1001
 
-local UIListLayout = Instance.new("UIListLayout")
-UIListLayout.Parent = OptionsFrame
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, optionPadding)
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Parent = OptionsFrame
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0, optionPadding)
+    UIListLayout.ZIndex = 1001
 
-local DropdownOpen = false
-Button.MouseButton1Click:Connect(function()
-    DropdownOpen = not DropdownOpen
-    OptionsFrame.Visible = DropdownOpen
-    if DropdownOpen then
-        OptionsFrame.CanvasSize = UDim2.new(0, 0, 0, (#options * (optionHeight + optionPadding)))
-        OptionsFrame.Size = UDim2.new(1, -10, 0, #options * (optionHeight + optionPadding))
-    end
-end)
-
-for i, option in ipairs(options) do
-    local OptionButton = Instance.new("TextButton")
-    OptionButton.Size = UDim2.new(1, -10, 0, optionHeight)
-    OptionButton.Position = UDim2.new(0, 5, 0, (i-1) * (optionHeight + optionPadding))
-    OptionButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-    OptionButton.Text = option
-    OptionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    OptionButton.Font = Enum.Font.GothamBold
-    OptionButton.TextScaled = true
-    OptionButton.Parent = OptionsFrame
-
-    OptionButton.MouseButton1Click:Connect(function()
-        Button.Text = option
-        OptionsFrame.Visible = false
-        DropdownOpen = false
-        if callback then callback(option) end
+    local DropdownOpen = false
+    Button.MouseButton1Click:Connect(function()
+        DropdownOpen = not DropdownOpen
+        OptionsFrame.Visible = DropdownOpen
+        if DropdownOpen then
+            OptionsFrame.CanvasSize = UDim2.new(0, 0, 0, (#options * (optionHeight + optionPadding)))
+            OptionsFrame.Size = UDim2.new(1, -10, 0, #options * (optionHeight + optionPadding))
+        end
     end)
-end
+
+    for i, option in ipairs(options) do
+        local OptionButton = Instance.new("TextButton")
+        OptionButton.Size = UDim2.new(1, -10, 0, optionHeight)
+        OptionButton.Position = UDim2.new(0, 5, 0, (i-1) * (optionHeight + optionPadding))
+        OptionButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+        OptionButton.Text = option
+        OptionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        OptionButton.Font = Enum.Font.GothamBold
+        OptionButton.TextScaled = true
+        OptionButton.Parent = OptionsFrame
+        OptionButton.ZIndex = 1002
+
+        OptionButton.MouseButton1Click:Connect(function()
+            Button.Text = option
+            OptionsFrame.Visible = false
+            DropdownOpen = false
+            if callback then callback(option) end
+        end)
+    end
 
     return DropdownTemp
 end
