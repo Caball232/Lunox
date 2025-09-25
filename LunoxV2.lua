@@ -600,9 +600,19 @@ local function AddDropdown(parent, text, options, callback)
     Title.Font = Enum.Font.GothamBold
     Title.Parent = TopBar
 
-    local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint.MaxTextSize = 14
-    UITextSizeConstraint.Parent = Title
+    local UITextSizeConstraint22 = Instance.new("UITextSizeConstraint")
+    UITextSizeConstraint22.MaxTextSize = 14
+    UITextSizeConstraint22.Parent = Title
+
+    local Home = Instance.new("ImageLabel")
+    Home.Name = "Home"
+    Home.Position = UDim2.new(0.068, 0, 0.154, 0)
+    Home.Size = UDim2.new(0.117, 0, 0.667, 0)
+    Home.BackgroundTransparency = 1
+    Home.Image = "rbxassetid://13848371994"
+    Home.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    Home.ScaleType = Enum.ScaleType.Stretch
+    Home.Parent = TopBar
 
     local OptionsFrame = Instance.new("ScrollingFrame")
     OptionsFrame.Size = UDim2.new(1, -10, 0, 0)
