@@ -583,6 +583,12 @@ local function AddDropdown(parent, text, options, callback)
     Button.TextColor3 = Color3.fromRGB(255, 255, 255)
     Button.TextScaled = true
 
+    local TopBar = Instance.new("Frame")
+    TopBar.Name = "TopBar"
+    TopBar.Size = UDim2.new(1, 0, 0.333, 0)
+    TopBar.BackgroundTransparency = 1
+    TopBar.Parent = DropdownTemp
+
     local Title = Instance.new("TextLabel")
     Title.Name = "Title"
     Title.Position = UDim2.new(0.235, 0, 0.244, 0)
@@ -592,7 +598,7 @@ local function AddDropdown(parent, text, options, callback)
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title.TextScaled = true
     Title.Font = Enum.Font.GothamBold
-    Title.Parent = DropdownTemp
+    Title.Parent = TopBar
 
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint.MaxTextSize = 14
