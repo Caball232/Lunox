@@ -570,6 +570,7 @@ local function AddDropdown(parent, text, options, callback)
     UICorner3.Parent = ButtonFrame
 
     local Button = Instance.new("TextButton")
+    Button.Name = "Button"
     Button.Parent = ButtonFrame
     Button.Size = UDim2.new(1, 0, 1, 0)
     Button.BackgroundTransparency = 1
@@ -614,7 +615,6 @@ local function AddDropdown(parent, text, options, callback)
         DropdownOpen = not DropdownOpen
         OptionsFrame.Visible = DropdownOpen
         if DropdownOpen then
-            OptionsFrame.CanvasSize = UDim2.new(0, 0, 0, (#options * (optionHeight + optionPadding)))
             OptionsFrame.Size = UDim2.new(1, -10, 0, #options * (optionHeight + optionPadding))
         end
     end)
@@ -654,6 +654,9 @@ local function AddDropdown(parent, text, options, callback)
         Button.Text = "Select..."
         buildOptions()
     end
+
+    DropdownTemp.Button = Button
+    DropdownTemp.OptionsFrame = OptionsFrame
 
     return DropdownTemp
 end
