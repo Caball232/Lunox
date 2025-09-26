@@ -2,10 +2,6 @@ local LunoxLib = {}
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 
-if game.CoreGui:FindFirstChild("Lunox") then
-    game.CoreGui.Lunox:Destroy()
-end
-
 local function MakeWindow(config)
     config = config or {}
     local version = config.Version or "v1.0"
