@@ -639,6 +639,8 @@ local function AddDropdown(parent, text, options, callback)
     OptionsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
     local DropdownOpen = false
+    local selectedOptions = {} -- multi-select table
+
     Button.MouseButton1Click:Connect(function()
         DropdownOpen = not DropdownOpen
         OptionsFrame.Visible = DropdownOpen
@@ -657,10 +659,19 @@ local function AddDropdown(parent, text, options, callback)
         OptionButton.ZIndex = 4
 
         OptionButton.MouseButton1Click:Connect(function()
-            Button.Text = option
-            OptionsFrame.Visible = false
-            DropdownOpen = false
-            if callback then callback(option) end
+            if selectedOptions[option] then
+                selectedOptions[option] = nil
+                OptionButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            else
+                selectedOptions[option] = true
+                OptionButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+            end
+
+            local count = 0
+            for _ in pairs(selectedOptions) do count = count + 1 end
+            Button.Text = count > 0 and ("Selected: "..count) or "Select..."
+
+            if callback then callback(selectedOptions) end
         end)
     end
 
