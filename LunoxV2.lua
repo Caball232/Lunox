@@ -649,7 +649,11 @@ local function AddDropdown(parent, text, options, callback)
     end)
 
     local function buildOptions()
-        OptionsFrame:ClearAllChildren()
+        for _, child in ipairs(OptionsFrame:GetChildren()) do
+            if child:IsA("TextButton") then
+                child:Destroy()
+            end
+        end
         UIListLayout.Parent = OptionsFrame
 
         for i, option in ipairs(options) do
