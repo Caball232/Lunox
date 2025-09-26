@@ -280,7 +280,7 @@ local function AddToggle(parent, text, callback)
     local ToggleTemp = Instance.new("Frame")
     ToggleTemp.Name = "ToggleTemp"
     ToggleTemp.Position = UDim2.new(0.026, 0, 0.144, 0)
-    ToggleTemp.Size = UDim2.new(0.239, 0, 0.203, 0)
+    ToggleTemp.Size = UDim2.new(0.209, 0, 0.188, 0)
     ToggleTemp.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
     ToggleTemp.Parent = parent
 
