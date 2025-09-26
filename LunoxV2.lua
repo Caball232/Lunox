@@ -623,7 +623,7 @@ local function AddDropdown(parent, text, options, callback)
     local optionPadding = 2
 
     local OptionsFrame = Instance.new("ScrollingFrame")
-    OptionsFrame.Size = UDim2.new(1, -10, 0, 100) -- default visible height
+    OptionsFrame.Size = UDim2.new(1, -10, 0, 100) -- initial visible height
     OptionsFrame.Position = UDim2.new(0, 5, 1, 5)
     OptionsFrame.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     OptionsFrame.BorderSizePixel = 0
@@ -631,19 +631,12 @@ local function AddDropdown(parent, text, options, callback)
     OptionsFrame.ScrollBarThickness = 4
     OptionsFrame.Parent = DropdownTemp
     OptionsFrame.ZIndex = 3
-    OptionsFrame.ClipsDescendants = true
 
     local UIListLayout = Instance.new("UIListLayout")
     UIListLayout.Parent = OptionsFrame
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, optionPadding)
-
-    -- auto resize canvas
-    local function updateCanvasSize()
-        OptionsFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y)
-    end
-    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvasSize)
-    updateCanvasSize()
+    OptionsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
     local DropdownOpen = false
     Button.MouseButton1Click:Connect(function()
@@ -654,6 +647,7 @@ local function AddDropdown(parent, text, options, callback)
     for i, option in ipairs(options) do
         local OptionButton = Instance.new("TextButton")
         OptionButton.Size = UDim2.new(1, -10, 0, optionHeight)
+        OptionButton.Position = UDim2.new(0, 5, 0, (i-1) * (optionHeight + optionPadding))
         OptionButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
         OptionButton.Text = option
         OptionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
