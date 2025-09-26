@@ -543,19 +543,9 @@ local function AddDropdown(parent, text, options, callback)
     DropdownTemp.Parent = parent
     DropdownTemp.ZIndex = 3
 
-    local UIAspectRatioConstraint563 = Instance.new("UIAspectRatioConstraint")
-    UIAspectRatioConstraint563.AspectRatio = 1.889
-    UIAspectRatioConstraint563.Parent = DropdownTemp
-
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = DropdownTemp
-
-    local UIStroke = Instance.new("UIStroke")
-    UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    UIStroke.Color = Color3.fromRGB(255, 255, 255)
-    UIStroke.Thickness = 2.7
-    UIStroke.Parent = DropdownTemp
 
     local Inner = Instance.new("Frame")
     Inner.Name = "Inner"
@@ -605,20 +595,6 @@ local function AddDropdown(parent, text, options, callback)
     Title.Font = Enum.Font.GothamBold
     Title.Parent = TopBar
 
-    local UITextSizeConstraint22 = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint22.MaxTextSize = 14
-    UITextSizeConstraint22.Parent = Title
-
-    local Home = Instance.new("ImageLabel")
-    Home.Name = "Home"
-    Home.Position = UDim2.new(0.068, 0, 0.154, 0)
-    Home.Size = UDim2.new(0.117, 0, 0.667, 0)
-    Home.BackgroundTransparency = 1
-    Home.Image = "rbxassetid://13848371994"
-    Home.ImageColor3 = Color3.fromRGB(255, 255, 255)
-    Home.ScaleType = Enum.ScaleType.Stretch
-    Home.Parent = TopBar
-
     local optionHeight = 22
     local optionPadding = 2
 
@@ -632,11 +608,6 @@ local function AddDropdown(parent, text, options, callback)
     OptionsFrame.ScrollBarThickness = 4
     OptionsFrame.Parent = DropdownTemp
     OptionsFrame.ZIndex = 3
-
-    local UIListLayout = Instance.new("UIListLayout")
-    UIListLayout.Parent = OptionsFrame
-    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    UIListLayout.Padding = UDim.new(0, optionPadding)
 
     local DropdownOpen = false
     Button.MouseButton1Click:Connect(function()
@@ -654,7 +625,6 @@ local function AddDropdown(parent, text, options, callback)
                 child:Destroy()
             end
         end
-        UIListLayout.Parent = OptionsFrame
 
         for i, option in ipairs(options) do
             local OptionButton = Instance.new("TextButton")
@@ -680,7 +650,7 @@ local function AddDropdown(parent, text, options, callback)
     buildOptions()
 
     function DropdownTemp:UpdateDropdown(newOptions)
-        options = newOptions
+        options = newOptions or {}
         Button.Text = "Select..."
         buildOptions()
     end
