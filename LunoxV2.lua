@@ -623,6 +623,7 @@ local function AddDropdown(parent, text, options, callback)
     local optionPadding = 2
 
     local OptionsFrame = Instance.new("ScrollingFrame")
+    OptionsFrame.Name = "OptionsFrame"
     OptionsFrame.Size = UDim2.new(1, -10, 0, 0)
     OptionsFrame.Position = UDim2.new(0, 5, 1, 5)
     OptionsFrame.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
@@ -647,24 +648,37 @@ local function AddDropdown(parent, text, options, callback)
         end
     end)
 
-    for i, option in ipairs(options) do
-        local OptionButton = Instance.new("TextButton")
-        OptionButton.Size = UDim2.new(1, -10, 0, optionHeight)
-        OptionButton.Position = UDim2.new(0, 5, 0, (i-1) * (optionHeight + optionPadding))
-        OptionButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-        OptionButton.Text = option
-        OptionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        OptionButton.Font = Enum.Font.GothamBold
-        OptionButton.TextScaled = true
-        OptionButton.Parent = OptionsFrame
-        OptionButton.ZIndex = 4
+    local function buildOptions()
+        OptionsFrame:ClearAllChildren()
+        UIListLayout.Parent = OptionsFrame
 
-        OptionButton.MouseButton1Click:Connect(function()
-            Button.Text = option
-            OptionsFrame.Visible = false
-            DropdownOpen = false
-            if callback then callback(option) end
-        end)
+        for i, option in ipairs(options) do
+            local OptionButton = Instance.new("TextButton")
+            OptionButton.Size = UDim2.new(1, -10, 0, optionHeight)
+            OptionButton.Position = UDim2.new(0, 5, 0, (i-1) * (optionHeight + optionPadding))
+            OptionButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            OptionButton.Text = option
+            OptionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            OptionButton.Font = Enum.Font.GothamBold
+            OptionButton.TextScaled = true
+            OptionButton.Parent = OptionsFrame
+            OptionButton.ZIndex = 4
+
+            OptionButton.MouseButton1Click:Connect(function()
+                Button.Text = option
+                OptionsFrame.Visible = false
+                DropdownOpen = false
+                if callback then callback(option) end
+            end)
+        end
+    end
+
+    buildOptions()
+
+    function DropdownTemp:UpdateDropdown(newOptions)
+        options = newOptions
+        Button.Text = "Select..."
+        buildOptions()
     end
 
     return DropdownTemp
