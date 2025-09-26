@@ -2,6 +2,8 @@ local LunoxLib = {}
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 
+print("Lunox better ?!")
+
 local function MakeWindow(config)
     config = config or {}
     local version = config.Version or "v1.0"
