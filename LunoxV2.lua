@@ -543,10 +543,6 @@ local function AddDropdown(parent, text, options, callback, singleSelect)
     DropdownTemp.Parent = parent
     DropdownTemp.ZIndex = 3
 
-    local UIAspectRatioConstraint563 = Instance.new("UIAspectRatioConstraint")
-    UIAspectRatioConstraint563.AspectRatio = 1.889
-    UIAspectRatioConstraint563.Parent = DropdownTemp
-
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = DropdownTemp
@@ -623,8 +619,8 @@ local function AddDropdown(parent, text, options, callback, singleSelect)
     local optionPadding = 2
 
     local OptionsFrame = Instance.new("ScrollingFrame")
-    OptionsFrame.Size = UDim2.new(1, -10, 0, 0)
-    OptionsFrame.Position = UDim2.new(0, 5, 1, 5)
+    OptionsFrame.Size = UDim2.new(1, -10, 0, 100) -- non-zero height
+    OptionsFrame.Position = UDim2.new(0, 5, 0.356 + 0.457 + 0.01, 0) -- under ButtonFrame
     OptionsFrame.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     OptionsFrame.BorderSizePixel = 0
     OptionsFrame.Visible = false
@@ -649,7 +645,6 @@ local function AddDropdown(parent, text, options, callback, singleSelect)
     for i, option in ipairs(options) do
         local OptionButton = Instance.new("TextButton")
         OptionButton.Size = UDim2.new(1, -10, 0, optionHeight)
-        OptionButton.Position = UDim2.new(0, 5, 0, (i-1) * (optionHeight + optionPadding))
         OptionButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
         OptionButton.Text = option
         OptionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -679,7 +674,7 @@ local function AddDropdown(parent, text, options, callback, singleSelect)
             local count = 0
             for _ in pairs(selectedOptions) do count = count + 1 end
             Button.Text = count > 0 and ("Selected: "..count) or "Select..."
-            
+
             if callback then callback(selectedOptions) end
         end)
     end
