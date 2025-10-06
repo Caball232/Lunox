@@ -2088,13 +2088,15 @@ end
 	
 	function section:updateDropdown(dropdown, title, list, callback, multiSelect, selectedItems)
     dropdown = self:getModule(dropdown)
+    
+    multiSelect = multiSelect or false
+    selectedItems = selectedItems or (multiSelect and {} or nil)
 
     if title then
         dropdown.Search.TextBox.Text = title
     end
 
     local entries = 0
-    selectedItems = selectedItems or {}
 
     utility:Pop(dropdown.Search, 10)
 
@@ -2106,7 +2108,7 @@ end
     end
 
     for _, value in pairs(list or {}) do
-        local isSelected = table.find(selectedItems, value) ~= nil
+        local isSelected = table.find(selectedItems or {}, value) ~= nil
 
         local button = utility:Create("ImageButton", {
             Parent = dropdown.List.Frame,
@@ -2134,7 +2136,6 @@ end
 
         button.MouseButton1Click:Connect(function()
             if multiSelect then
-                -- Toggle selection
                 if table.find(selectedItems, value) then
                     table.remove(selectedItems, table.find(selectedItems, value))
                     button.ImageColor3 = themes.DarkContrast
@@ -2144,7 +2145,6 @@ end
                 end
                 if callback then callback(selectedItems) end
             else
-                -- Single select
                 selectedItems = {value}
                 if callback then
                     callback(value, function(...)
