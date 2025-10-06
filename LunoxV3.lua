@@ -2087,90 +2087,93 @@ end
 	end
 	
 	function section:updateDropdown(dropdown, title, list, callback, multiSelect, selectedItems)
-	dropdown = self:getModule(dropdown)
+    dropdown = self:getModule(dropdown)
 
-	if title then
-		dropdown.Search.TextBox.Text = title
-	end
+    if title then
+        dropdown.Search.TextBox.Text = title
+    end
 
-	local entries = 0
-	selectedItems = selectedItems or {}
+    local entries = 0
+    selectedItems = selectedItems or {}
 
-	utility:Pop(dropdown.Search, 10)
+    utility:Pop(dropdown.Search, 10)
 
-	for _, button in pairs(dropdown.List.Frame:GetChildren()) do
-		if button:IsA("ImageButton") then
-			button:Destroy()
-		end
-	end
+    -- Clear old buttons
+    for _, button in pairs(dropdown.List.Frame:GetChildren()) do
+        if button:IsA("ImageButton") then
+            button:Destroy()
+        end
+    end
 
-	for _, value in pairs(list or {}) do
-		local isSelected = table.find(selectedItems, value) ~= nil
+    for _, value in pairs(list or {}) do
+        local isSelected = table.find(selectedItems, value) ~= nil
 
-		local button = utility:Create("ImageButton", {
-			Parent = dropdown.List.Frame,
-			BackgroundTransparency = 1,
-			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 0, 30),
-			ZIndex = 2,
-			Image = "rbxassetid://5028857472",
-			ImageColor3 = isSelected and themes.Accent or themes.DarkContrast,
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
-		}, {
-			utility:Create("TextLabel", {
-				BackgroundTransparency = 1,
-				Position = UDim2.new(0, 10, 0, 0),
-				Size = UDim2.new(1, -10, 1, 0),
-				ZIndex = 3,
-				Font = Enum.Font.Gotham,
-				Text = value,
-				TextColor3 = themes.TextColor,
-				TextSize = 12,
-				TextXAlignment = "Left",
-				TextTransparency = 0.1
-			})
-		})
+        local button = utility:Create("ImageButton", {
+            Parent = dropdown.List.Frame,
+            BackgroundTransparency = 1,
+            BorderSizePixel = 0,
+            Size = UDim2.new(1, 0, 0, 30),
+            ZIndex = 2,
+            Image = isSelected and themes.Accent or themes.DarkContrast,
+            ScaleType = Enum.ScaleType.Slice,
+            SliceCenter = Rect.new(2, 2, 298, 298)
+        }, {
+            utility:Create("TextLabel", {
+                BackgroundTransparency = 1,
+                Position = UDim2.new(0, 10, 0, 0),
+                Size = UDim2.new(1, -10, 1, 0),
+                ZIndex = 3,
+                Font = Enum.Font.Gotham,
+                Text = value,
+                TextColor3 = themes.TextColor,
+                TextSize = 12,
+                TextXAlignment = "Left",
+                TextTransparency = 0.1
+            })
+        })
 
-		button.MouseButton1Click:Connect(function()
-			if multiSelect then
-				if table.find(selectedItems, value) then
-					table.remove(selectedItems, table.find(selectedItems, value))
-					button.ImageColor3 = themes.DarkContrast
-				else
-					table.insert(selectedItems, value)
-					button.ImageColor3 = themes.Accent
-				end
-				if callback then callback(selectedItems) end
-			else
-				if callback then
-					callback(value, function(...)
-						self:updateDropdown(dropdown, ...)
-					end)
-				end
-				self:updateDropdown(dropdown, value, nil, callback)
-			end
-		end)
+        button.MouseButton1Click:Connect(function()
+            if multiSelect then
+                -- Toggle selection
+                if table.find(selectedItems, value) then
+                    table.remove(selectedItems, table.find(selectedItems, value))
+                    button.ImageColor3 = themes.DarkContrast
+                else
+                    table.insert(selectedItems, value)
+                    button.ImageColor3 = themes.Accent
+                end
+                if callback then callback(selectedItems) end
+            else
+                -- Single select
+                selectedItems = {value}
+                if callback then
+                    callback(value, function(...)
+                        self:updateDropdown(dropdown, ...)
+                    end)
+                end
+                self:updateDropdown(dropdown, value, list, callback, false, selectedItems)
+            end
+        end)
 
-		entries += 1
-	end
+        entries += 1
+    end
 
-	local frame = dropdown.List.Frame
-	utility:Tween(dropdown, {Size = UDim2.new(1, 0, 0, (entries == 0 and 30) or math.clamp(entries, 0, 3) * 34 + 38)}, 0.3)
-	utility:Tween(dropdown.Search.Button, {Rotation = list and 180 or 0}, 0.3)
+    local frame = dropdown.List.Frame
+    utility:Tween(dropdown, {Size = UDim2.new(1, 0, 0, (entries == 0 and 30) or math.clamp(entries, 0, 3) * 34 + 38)}, 0.3)
+    utility:Tween(dropdown.Search.Button, {Rotation = (list and #list > 0) and 180 or 0}, 0.3)
 
-	if entries > 3 then
-		for _, button in pairs(dropdown.List.Frame:GetChildren()) do
-			if button:IsA("ImageButton") then
-				button.Size = UDim2.new(1, -6, 0, 30)
-			end
-		end
-		frame.CanvasSize = UDim2.new(0, 0, 0, (entries * 34) - 4)
-		frame.ScrollBarImageTransparency = 0
-	else
-		frame.CanvasSize = UDim2.new(0, 0, 0, 0)
-		frame.ScrollBarImageTransparency = 1
-	end
+    if entries > 3 then
+        for _, button in pairs(dropdown.List.Frame:GetChildren()) do
+            if button:IsA("ImageButton") then
+                button.Size = UDim2.new(1, -6, 0, 30)
+            end
+        end
+        frame.CanvasSize = UDim2.new(0, 0, 0, (entries * 34) - 4)
+        frame.ScrollBarImageTransparency = 0
+    else
+        frame.CanvasSize = UDim2.new(0, 0, 0, 0)
+        frame.ScrollBarImageTransparency = 1
+    end
 end
 
 return library
